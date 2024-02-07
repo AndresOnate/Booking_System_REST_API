@@ -1,4 +1,4 @@
-package controller.health;
+package edu.escuelaing.eci.ieti.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 

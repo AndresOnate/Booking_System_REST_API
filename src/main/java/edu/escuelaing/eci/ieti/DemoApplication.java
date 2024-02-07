@@ -1,4 +1,4 @@
-package controller.health;
+package edu.escuelaing.eci.ieti;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
