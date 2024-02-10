@@ -2,10 +2,14 @@ package edu.escuelaing.eci.ieti.service;
 
 import edu.escuelaing.eci.ieti.exception.UserPersistenceException;
 import edu.escuelaing.eci.ieti.repository.User;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 public interface UsersService {
+
+    HashMap<String, User> users = new HashMap<String, User>();
 
     User save(User user) throws UserPersistenceException;
 
