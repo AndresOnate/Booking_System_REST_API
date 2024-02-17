@@ -1,14 +1,29 @@
 package edu.escuelaing.eci.ieti.repository;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
-public class User {
 
-    private final String id;
-    private final Date createdAt;
+@Document(collection = "user_collection")
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    private String id;
     private String name;
     private String lastName;
     private String email;
+
+    private Date createdAt;
+
+    public User() {
+
+    }
 
     public User(String id, String name, String lastName, String email) {
         this.id = id;
@@ -17,6 +32,15 @@ public class User {
         this.email = email;
         this.createdAt = new Date();
     }
+
+    public User(UserDto userDto) {
+        this.id = null;
+        this.name = userDto.getName();
+        this.lastName = userDto.getLastName();
+        this.email = userDto.getEmail();
+        this.createdAt = new Date();
+    }
+
 
     public String getId() {
         return id;
@@ -50,4 +74,33 @@ public class User {
         return createdAt;
     }
 
+    public void update(UserDto userDto) {
+        this.name = userDto.getName();
+        this.lastName = userDto.getLastName();
+        this.email = userDto.getEmail();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email)  && Objects.equals(createdAt, user.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastName, email, createdAt);
+    }
 }

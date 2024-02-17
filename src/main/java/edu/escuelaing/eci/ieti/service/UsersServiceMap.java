@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Service
+
 public class UsersServiceMap implements UsersService {
 
     HashMap<String, User> users = new HashMap<String, User>();
