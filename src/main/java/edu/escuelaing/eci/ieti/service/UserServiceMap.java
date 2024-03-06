@@ -1,13 +1,12 @@
 package edu.escuelaing.eci.ieti.service;
 
 import edu.escuelaing.eci.ieti.exception.UserPersistenceException;
-import edu.escuelaing.eci.ieti.repository.User;
-import org.springframework.stereotype.Service;
+import edu.escuelaing.eci.ieti.repository.user.User;
 
 import java.util.*;
 
 
-public class UsersServiceMap implements UsersService {
+public class UserServiceMap implements UserService {
 
     HashMap<String, User> users = new HashMap<String, User>();
 
@@ -26,6 +25,7 @@ public class UsersServiceMap implements UsersService {
         User user = users.get(id);
         return Optional.ofNullable(user);
     }
+
 
     @Override
     public List<User> all() {
@@ -52,5 +52,10 @@ public class UsersServiceMap implements UsersService {
             users.put(userId, user);
             return user;
         }
+    }
+
+    @Override
+    public User findByEmail(String id) throws UserPersistenceException {
+        return null;
     }
 }

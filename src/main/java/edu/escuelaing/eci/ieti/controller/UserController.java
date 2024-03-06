@@ -1,14 +1,14 @@
 package edu.escuelaing.eci.ieti.controller;
 
 
-import edu.escuelaing.eci.ieti.exception.UserNotFoundException;
 import edu.escuelaing.eci.ieti.exception.UserPersistenceException;
-import edu.escuelaing.eci.ieti.repository.User;
-import edu.escuelaing.eci.ieti.service.UsersService;
+import edu.escuelaing.eci.ieti.repository.user.User;
+import edu.escuelaing.eci.ieti.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +17,9 @@ import java.util.Optional;
 @RequestMapping("/v1/users/")
 public class UserController {
 
-    private final UsersService usersService;
+    private final UserService usersService;
 
-    public UserController(@Autowired UsersService usersService) {
+    public UserController(@Autowired UserService usersService) {
         this.usersService = usersService;
     }
 
@@ -44,33 +44,21 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<User> findById(@PathVariable("id") String id) {
         Optional<User> existingUserOptional = usersService.findById(id);
-        if (existingUserOptional.isPresent()) {
-            User user = existingUserOptional.get();
-            return ResponseEntity.ok(user);
-        } else {
-            throw new UserNotFoundException(id);
-        }
+        User user = existingUserOptional.get();
+        return ResponseEntity.ok(user);
+
     }
 
     @PutMapping("{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User newUser) {
-        Optional<User> existingUserOptional = usersService.findById(id);
-        if (existingUserOptional.isPresent()) {
-            User updatedUser = usersService.update(newUser, id);
-            return ResponseEntity.ok(updatedUser);
-        } else {
-            throw new UserNotFoundException(id);
-        }
+        User updatedUser = usersService.update(newUser, id);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("{id}")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") String id) {
-        Optional<User> existingUserOptional = usersService.findById(id);
-        if (existingUserOptional.isPresent()) {
-            usersService.deleteById(id);
-            return ResponseEntity.ok().build();
-        } else {
-            throw new UserNotFoundException(id);
-        }
+        usersService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

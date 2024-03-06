@@ -1,4 +1,4 @@
-package edu.escuelaing.eci.ieti.repository;
+package edu.escuelaing.eci.ieti.repository.user;
 
 public class UserDto {
     private final String name;
